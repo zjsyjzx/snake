@@ -1,0 +1,7 @@
+{
+    "code-runner.saveFileBeforeRun": true,
+    "code-runner.executorMap": {
+        "c": "gcc C:\\snake\\$fileName -o C:\\snake\\$fileNameWithoutExt.exe && start powershell -NoExit -Command \"chcp 65001 > $null; cd C:\\snake\\output; .\\$fileNameWithoutExt.exe\"",
+        "cpp": "g++ C:\\snake\\$fileName -o C:\\snake\\$fileNameWithoutExt.exe && start powershell -NoExit -Command \"chcp 65001 > $null; C:\\snake\\$fileNameWithoutExt.exe\""
+    }
+}
