@@ -224,9 +224,9 @@ private:
     bool pause;
     snake s;
     apple a;
-    bool eat = true;
+    bool eat;
     bool gameover;
-    int key = 'd';
+    int key;
     int score;
 
 public:
