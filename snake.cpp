@@ -333,11 +333,8 @@ public:
             {
                 draw(s.getBody(), a);
                 getkey(key);
-
                 if (key == 'q' || key == 'Q')
                     return;
-
-                // 处理暂停
                 if (key == 'p' || key == 'P')
                 {
                     pause = !pause;
@@ -346,20 +343,17 @@ public:
                         stop();
                     }
                 }
-
                 if (pause)
                 {
                     Sleep(50);
                     continue;
                 }
-
                 s.checkEat(eat, a);
                 if (score >= 10)
                 {
                     gameover = true;
                 }
-                s.update(key, eat, score, gameover); // 传入 gameover
-
+                s.update(key, eat, score, gameover);
                 if (gameover)
                 {
                     if (score >= 10)
@@ -367,7 +361,6 @@ public:
                     else
                         cout << "\nGame over!";
                     cout << "\nPress R to restart or Q to quit";
-
                     while (gameover)
                     {
                         if (_kbhit())
@@ -385,13 +378,11 @@ public:
                         Sleep(100);
                     }
                 }
-
                 if (eat)
                 {
                     a.update(key, eat, score, gameover);
                     eat = false;
                 }
-
                 Sleep(50);
             }
         }
