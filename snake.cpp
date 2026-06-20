@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <deque>
+#include <vector>
 #include <random>
 #include <cstdlib>
 #include <conio.h>
@@ -46,7 +46,7 @@ public:
 class snake : public point
 {
 private:
-    deque<snake *> body;
+    vector<snake *> body;
     direction d;
 
 public:
@@ -69,7 +69,7 @@ public:
                 delete x;
         }
     }
-    deque<snake *> &getBody()
+    vector<snake *> &getBody()
     {
         return body;
     }
@@ -267,7 +267,7 @@ public:
             back = back + "##";
         back = back + "#\nscore: ";
     }
-    void drawsnake(deque<snake *> &body)
+    void drawsnake(vector<snake *> &body)
     {
         for (const auto &seg : body)
         {
@@ -280,7 +280,7 @@ public:
     {
         back[a.gety() * (width * 2 + 1) + a.getx()] = '@';
     }
-    void draw(deque<snake *> &body, apple &a)
+    void draw(vector<snake *> &body, apple &a)
     {
         drawbackground();
         drawsnake(body);
