@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#include <vector>
 #include <random>
 #include <cstdlib>
 #include <conio.h>
@@ -22,6 +21,13 @@ void getkey(int &key)
     else
         return;
 }
+enum class direction : int
+{
+    right = 0,
+    left = 1,
+    up = 2,
+    down = 3
+};
 class point
 {
 protected:
@@ -41,23 +47,23 @@ class snake : public point
 {
 private:
     deque<snake *> body;
-    int direction;
+    direction d;
 
 public:
     snake(int x, int y) : point(x, y)
     {
-        direction = 0;
+        d = direction::right;
     }
     snake() : point(width / 2, height / 2)
     {
-        direction = 0;
+        d = direction::right;
         body.push_back(this);
         body.push_back(new snake(width / 2 - 1, height / 2));
         body.push_back(new snake(width / 2 - 2, height / 2));
     }
     ~snake()
     {
-        for (auto x : body)
+        for (auto &x : body)
         {
             if (x != this)
                 delete x;
@@ -67,14 +73,14 @@ public:
     {
         return body;
     }
-    void changeDirection(int newDirection)
+    void changeDirection(direction newDirection)
     {
-        if ((direction == 0 && newDirection == 1) ||
-            (direction == 1 && newDirection == 0) ||
-            (direction == 2 && newDirection == 3) ||
-            (direction == 3 && newDirection == 2))
+        if ((d == direction::right && newDirection == direction::left) ||
+            (d == direction::left && newDirection == direction::right) ||
+            (d == direction::up && newDirection == direction::down) ||
+            (d == direction::down && newDirection == direction::up))
             return;
-        direction = newDirection;
+        d = newDirection;
     }
     bool checkWallCollision()
     {
@@ -106,35 +112,35 @@ public:
         {
         case 'a':
         case 'A':
-            changeDirection(1);
+            changeDirection(direction::left);
             break;
         case 'd':
         case 'D':
-            changeDirection(0);
+            changeDirection(direction::right);
             break;
         case 'w':
         case 'W':
-            changeDirection(2);
+            changeDirection(direction::up);
             break;
         case 's':
         case 'S':
-            changeDirection(3);
+            changeDirection(direction::down);
             break;
         }
         int newX = x;
         int newY = y;
-        switch (direction)
+        switch (d)
         {
-        case 0:
+        case direction::right:
             newX += 1;
             break;
-        case 1:
+        case direction::left:
             newX -= 1;
             break;
-        case 2:
+        case direction::up:
             newY -= 1;
             break;
-        case 3:
+        case direction::down:
             newY += 1;
             break;
         }
@@ -175,13 +181,13 @@ public:
     }
     void reset()
     {
-        for (auto seg : body)
+        for (auto &seg : body)
         {
             if (seg != this)
                 delete seg;
         }
         body.clear();
-        direction = 0;
+        d = direction::right;
         x = width / 2;
         y = height / 2;
         body.push_back(this);
@@ -263,9 +269,9 @@ public:
     }
     void drawsnake(deque<snake *> &body)
     {
-        for (size_t i = 0; i < body.size(); i++)
+        for (const auto &seg : body)
         {
-            int idx = body[i]->gety() * (width * 2 + 1) + body[i]->getx();
+            int idx = seg->gety() * (width * 2 + 1) + seg->getx();
             if (idx >= 0 && idx < (int)back.length())
                 back[idx] = 'O';
         }
